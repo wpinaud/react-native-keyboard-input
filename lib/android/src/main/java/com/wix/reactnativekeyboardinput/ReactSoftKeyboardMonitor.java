@@ -2,6 +2,7 @@ package com.wix.reactnativekeyboardinput;
 
 import android.graphics.Rect;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.ViewTreeObserver;
 
 import com.facebook.react.ReactRootView;
@@ -38,7 +39,6 @@ public class ReactSoftKeyboardMonitor implements ReactScreenMonitor.Listener {
                 mExternalListener.onSoftKeyboardHidden();
                 Logger.d(TAG, "Keyboard GONE!");
             }
-            refreshKeyboardHeight();
         }
     };
 
@@ -113,14 +113,10 @@ public class ReactSoftKeyboardMonitor implements ReactScreenMonitor.Listener {
     private void initLocallyVisibleHeight() {
         mLocallyVisibleHeight = getLocallyVisibleHeight();
         Logger.d(TAG, "Measured locally visible height: "+mLocallyVisibleHeight);
-        mKeyboardHeight = null; // Reset so the keyboard would be measured in the next opportunity.
+        mKeyboardHeight = 700; // Reset so the keyboard would be measured in the next opportunity.
     }
 
     private void refreshKeyboardHeight() {
-        if (mKeyboardHeight != null) {
-            return;
-        }
-
         RuntimeUtils.runOnUIThread(new Runnable() {
             @Override
             public void run() {
